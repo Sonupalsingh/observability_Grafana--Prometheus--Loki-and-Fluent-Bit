@@ -1,0 +1,44 @@
+# Copy to my-alert-values.yaml and fill in your settings:
+#   cp my-alert-values.example.yaml my-alert-values.yaml
+# my-alert-values.yaml is git-ignored - never commit real passwords.
+# Usage: helm upgrade --install obs ./observability-stack -n monitoring --create-namespace -f my-alert-values.yaml
+
+grafana:
+  adminPassword: CHANGE_ME
+
+alerting:
+  email:
+    enabled: false                      # set true to send alert emails
+    to: you@yourcompany.com
+    from: alertmanager@yourcompany.com
+    smarthost: smtp.gmail.com:587
+    authUsername: yourgmail@gmail.com
+    authPassword: "xxxx xxxx xxxx xxxx"   # Gmail App Password (not your normal password)
+    requireTLS: true
+
+  slack:
+    enabled: false
+    webhookUrl: https://hooks.slack.com/services/XXX/YYY/ZZZ
+    channel: "#alerts"
+
+  webhook:
+    enabled: false
+    url: http://my-webhook.example.com/alerts
+
+alertRules:
+  thresholds:
+    podCpuCores: 1
+    podMemoryMi: 2048
+    nodeCpuPercent: 85
+    nodeMemoryPercent: 90
+    errorLogsPer5m: 50
+
+  # your own alerts, e.g.:
+  extraPrometheusRules: []
+  #  - name: my-app
+  #    rules:
+  #      - alert: MyAppDown
+  #        expr: up{job="my-app"} == 0
+  #        for: 2m
+  #        labels: { severity: critical }
+  #        annotations: { summary: "my-app is down" }

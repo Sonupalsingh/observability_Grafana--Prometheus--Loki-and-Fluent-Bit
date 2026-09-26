@@ -1,0 +1,42 @@
+# Keep this file private - it contains secrets.
+# Usage: helm upgrade obs ./observability-stack -n monitoring -f my-alert-values.yaml
+
+grafana:
+  adminPassword: MyStrongPass
+
+alerting:
+  email:
+    enabled: true
+    to: you@yourcompany.com
+    from: alertmanager@yourcompany.com
+    smarthost: smtp.gmail.com:587
+    authUsername: yourgmail@gmail.com
+    authPassword: "xxxx xxxx xxxx xxxx"   # Gmail App Password (not your normal password)
+    requireTLS: true
+
+  slack:
+    enabled: false
+    webhookUrl: https://hooks.slack.com/services/XXX/YYY/ZZZ
+    channel: "#alerts"
+
+  webhook:
+    enabled: false
+    url: http://my-webhook.example.com/alerts
+
+alertRules:
+  thresholds:
+    podCpuCores: 1
+    podMemoryMi: 2048
+    nodeCpuPercent: 85
+    nodeMemoryPercent: 90
+    errorLogsPer5m: 50
+
+  # your own alerts, e.g.:
+  extraPrometheusRules: []
+  #  - name: my-app
+  #    rules:
+  #      - alert: MyAppDown
+  #        expr: up{job="my-app"} == 0
+  #        for: 2m
+  #        labels: { severity: critical }
+  #        annotations: { summary: "my-app is down" }
