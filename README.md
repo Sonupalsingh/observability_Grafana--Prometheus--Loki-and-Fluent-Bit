@@ -29,6 +29,11 @@ flowchart LR
 
 ```bash
 git clone https://github.com/<your-user>/observability-stack.git
+
+
+sudo tar -xzf github-repo-observability-v1.2.1.tgz
+sudo ./scripts/install.sh
+
 cd observability-stack
 
 cp my-alert-values.example.yaml my-alert-values.yaml
